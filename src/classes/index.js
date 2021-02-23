@@ -1,0 +1,1 @@
+export { PolygonChart } from './PolygonChart';
