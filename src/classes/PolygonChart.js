@@ -77,7 +77,7 @@ export class PolygonChart {
         this.poly = new Polygon(this.data, {
 
           animation: {
-            animated: _that.options.animation.animated,
+            animate: _that.options.animation.animated,
             duration: _that.options.animation.duration,
             delay: _that.options.animation.delay,
             easingFunction: easingFunctions[_that.options.animation.easingFunction]
@@ -438,8 +438,6 @@ export class PolygonChart {
 
   tween() {
 
-    if (this.waiting) this.waiting = false;
-
     this.context.save();
 
     this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
@@ -451,10 +449,6 @@ export class PolygonChart {
       this.currentPolygon = 0;
 
       if (this.poly[this.currentPolygon].options.animation.delay > 0) {
-
-        this.waiting = true;
-
-        window.cancelAnimationFrame(this.frameID);
 
         return window.setTimeout(this.tween.bind(this), this.poly[this.currentPolygon].options.animation.delay);
 
@@ -474,11 +468,11 @@ export class PolygonChart {
 
     }
 
-    let interval = this.poly[this.currentPolygon].animate(this.context, this.angleStep, this.valueStep);
+    const currentAnimationCompleted = this.poly[this.currentPolygon].animate(this.context, this.angleStep, this.valueStep);
 
     this.context.restore();
 
-    if (interval >= 0) {
+    if (currentAnimationCompleted) {
 
       let complete = this.poly.reduce((progress, currentPolygon) => {
 
@@ -496,15 +490,21 @@ export class PolygonChart {
 
         this.currentPolygon = -1;
 
-      } else {
+        return;
 
-        this.waiting = true;
+      } else {
 
         this.currentPolygon++;
 
-        window.setTimeout(this.tween.bind(this), interval);
+      }
+
+      if (this.poly[this.currentPolygon].options.animation.delay > 0) {
+
+        return window.setTimeout(this.tween.bind(this), this.poly[this.currentPolygon].options.animation.delay);
 
       }
+
+      this.frameID = window.requestAnimationFrame(this.tween.bind(this, this.context));
 
     } else {
 
