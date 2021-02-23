@@ -67,6 +67,14 @@ export class Polygon {
 
   animate(context, angleStep, valueStep) {
 
+    if (this.options.animation.animate === false) {
+
+      this.draw(context, angleStep, valueStep);
+
+      return true;
+
+    }
+
     if (this.animationStartTime < 0) this.animationStartTime = Date.now();
 
     const timeElapsed = Date.now() - this.animationStartTime;
@@ -95,7 +103,7 @@ export class Polygon {
       this.animationProgress = 1;
       this.animating = false;
       this.animated = true;
-      return this.options.animation.delay;
+      return true;
     }
 
   }
