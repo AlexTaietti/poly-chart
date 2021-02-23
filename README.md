@@ -1,4 +1,4 @@
-# Polygon Chart Component for React apps
+## Polygon Chart Component for React apps
 
 <p align="center"><img src="./preview/poly-chart.gif" width="80%"/></p>
 
