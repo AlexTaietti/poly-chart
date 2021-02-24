@@ -12,12 +12,6 @@ const demoConfig = {
 
    entry: DEMO_PATH,
 
-   output: {
-      library: 'PolyChart',
-      libraryTarget: 'umd',
-      filename: 'poly-chart.js'
-   },
-
    resolve: {
       extensions: ['.js', '.json'],
       alias: { "@poly-chart": SOURCE_PATH }
