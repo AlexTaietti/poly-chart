@@ -2,7 +2,7 @@ import { mergeObjects, createFittingCanvas, getLongestStringWidth, getMaxValueIn
 
 describe('getMaxValueInArray: returns the highest value in an array of numbers', () => {
 
-   test('Return the highest value in one-dimensional array of integers', () => {
+   test('return the highest value in one-dimensional array of integers', () => {
 
       const numbers = [1000, 2000, 1000000, 1, 200, 100, 420, 69];
 
@@ -10,7 +10,7 @@ describe('getMaxValueInArray: returns the highest value in an array of numbers',
 
    });
 
-   test('Return the highest value in two-dimensional array of integers', () => {
+   test('return the highest value in two-dimensional array of integers', () => {
 
       const numbers = [1000, [2000, 200, 2, 100, 10000, 300000000], 1000000, 1, 200, 100, 420, 69];
 
@@ -22,7 +22,7 @@ describe('getMaxValueInArray: returns the highest value in an array of numbers',
 
 describe('mergeObjects: returns a merged object', () => {
 
-   test('Merge two shallow objects', () => {
+   test('merge two shallow objects', () => {
 
       const firstObject = { a: 100, b: 'hello', c: 'world', d: 1, e: 2020 };
 
@@ -40,7 +40,7 @@ describe('mergeObjects: returns a merged object', () => {
 
    });
 
-   test('Merge two objects with complex values', () => {
+   test('merge two objects with complex values', () => {
 
       const firstObject = {
 
@@ -98,7 +98,7 @@ describe('getLongestStringWidth: return the width of the longest string from an 
 
 describe('createFittingCanvas: creates a canvas that fits inside a supplied HTML element, appends it to it. Returns a reference to said element, a 2d context and the fitted canvas', () => {
 
-   test("returns the same container passed to the function originally", () => {
+   test("return the same container passed to the function originally", () => {
 
       const mockContainerElement = document.createElement('div');
 
