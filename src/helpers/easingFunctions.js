@@ -25,7 +25,7 @@ function bounceOut(x) {
   }
 }
 
-const easingFunctions = {
+export const easingFunctions = {
   linear: (x) => x,
   easeInQuad: function (x) {
     return x * x;
@@ -142,5 +142,3 @@ const easingFunctions = {
       : (1 + bounceOut(2 * x - 1)) / 2;
   },
 };
-
-export default easingFunctions;
