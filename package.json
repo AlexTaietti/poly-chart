@@ -27,6 +27,7 @@
     "jest-canvas-mock": "^2.3.1",
     "react": "*",
     "react-dom": "*",
+    "react-test-renderer": "^17.0.1",
     "webpack": "5.11.0",
     "webpack-cli": "4.2.0",
     "webpack-dev-server": "3.11.0"
