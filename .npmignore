@@ -1,0 +1,6 @@
+/src
+/node_modules
+/demo
+webpack.config.js
+/preview
+.babelrc
