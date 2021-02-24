@@ -1,6 +1,6 @@
 import { mergeObjects } from '../helpers/utils.js';
 
-export class Polygon {
+export const Polygon = class Polygon {
 
   constructor(data, options = {}) {
 

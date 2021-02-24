@@ -2,7 +2,7 @@ import { mergeObjects, createFittingCanvas, getLongestStringWidth, getMaxValueIn
 import { Polygon } from './Polygon.js';
 import { easingFunctions } from '../helpers/easingFunctions.js';
 
-export class PolygonChart {
+export const PolygonChart = class PolygonChart {
 
   //create a canvas and fit it to a given container element
   constructor(element) {
