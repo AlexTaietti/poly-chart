@@ -1,8 +1,21 @@
 {
   "name": "poly-chart",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "build/poly-chart.js",
   "description": "A simple polygon chart component for React apps",
+  "keywords": [
+    "react",
+    "chart",
+    "poly",
+    "polygon",
+    "component",
+    "animation",
+    "animated",
+    "tween",
+    "minimal",
+    "responsive",
+    "data"
+  ],
   "scripts": {
     "build": "webpack --progress --config-name prod",
     "demo": "webpack s --config-name demo",
