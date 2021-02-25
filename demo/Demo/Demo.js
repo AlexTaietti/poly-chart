@@ -3,10 +3,9 @@ import { PolyChart } from '@poly-chart';
 
 const mainStyle = {
    background: "rgb(0, 141, 210)",
-   position: "relative",
-   display: "block",
-   height: "100vh",
-   width: "100vw"
+   position: "fixed",
+   height: "100%",
+   width: "100%"
 };
 
 export const Demo = () => {
