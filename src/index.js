@@ -1,1 +1,1 @@
-export { Chart } from './PolyChart';
+export { PolyChart } from './PolyChart';

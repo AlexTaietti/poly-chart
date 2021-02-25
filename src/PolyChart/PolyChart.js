@@ -8,7 +8,7 @@ const chartContainerStyle = {
    width: "100%"
 };
 
-export const Chart = ({ data, options }) => {
+export const PolyChart = ({ data, options }) => {
 
    const container = useRef();
 
@@ -28,6 +28,6 @@ export const Chart = ({ data, options }) => {
 
    useEffect(() => { chart.current.masterDraw(); }, [options, data]);
 
-   return <div style={chartContainerStyle} aria-label='chart' ref={container}></div>;
+   return <div style={chartContainerStyle} aria-label='chart' ref={container} />;
 
 };

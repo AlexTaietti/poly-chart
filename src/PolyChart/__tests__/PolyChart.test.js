@@ -1,7 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
 import renderer from 'react-test-renderer';
-import { Chart } from '../Chart';
+import polyChart from '../../../build/poly-chart';
+import { PolyChart } from '../PolyChart';
 
 describe('Chart: React component used to render a PolygonChart instance', () => {
 
@@ -62,7 +63,7 @@ describe('Chart: React component used to render a PolygonChart instance', () => 
 
       };
 
-      const chart = renderer.create(<Chart data={testData} options={testOptions} />);
+      const chart = renderer.create(<PolyChart data={testData} options={testOptions} />);
 
       let tree = chart.toJSON();
 
