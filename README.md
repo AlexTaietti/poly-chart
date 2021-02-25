@@ -17,7 +17,7 @@ const MyComponent = (props) => {
    //can be either a single object or an array of objects with identical keys (keys are used as labels)
    const demoData = [...]; 
 
-   //look below for options object interface
+   //look below for options object examples
    const demoOptions = {...};
 
    //the chart's parent in the DOM needs to be relatively positioned and its dimensions need to be stated, even percentages will do (the chart will shrink and expand according to its container's size)
