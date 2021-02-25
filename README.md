@@ -20,11 +20,8 @@ const MyComponent = (props) => {
    //look below for options object interface
    const demoOptions = {...};
 
-   return (
-      <MyComponent style={mainStyle}>
-         <PolyChart data={demoData} options={demoOptions} />
-      </MyComponent>
-   );
+   //the chart's parent in the DOM needs to be relatively positioned and its dimesions need to be stated, even percentages will do (the chart will shrink and expand according to its container's size)
+   return <PolyChart data={demoData} options={demoOptions} />;
 
 };
 ```
