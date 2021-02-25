@@ -70,7 +70,7 @@ export const Demo = () => {
 
    return (
       <main style={mainStyle}>
-         <Chart data={demoData} options={demoOptions} />
+         <PolyChart data={demoData} options={demoOptions} />
       </main>
    );
 
