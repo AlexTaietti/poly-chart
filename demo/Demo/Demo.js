@@ -1,5 +1,5 @@
 import React from 'react';
-import { Chart } from '@poly-chart';
+import { PolyChart } from '@poly-chart';
 
 const mainStyle = {
    background: "rgb(0, 141, 210)",
