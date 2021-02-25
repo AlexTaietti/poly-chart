@@ -38,12 +38,12 @@ const prodConfig = {
 
    name: 'prod',
 
-   entry: SOURCE_PATH,
+   entry: path.join(SOURCE_PATH, 'index.js'),
 
    output: {
-      library: 'PolyChart',
       libraryTarget: 'umd',
       filename: 'poly-chart.js',
+      globalObject: 'this',
       path: path.resolve(__dirname, 'build'),
    },
 
