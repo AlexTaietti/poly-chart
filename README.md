@@ -9,7 +9,7 @@ A bare-bones canvas based component for data visualization in React. This chart 
 ## Usage
 
 ### general
-```
+```js
 const MyComponent = (props) => {
 
    //can be either a single object or an array of object with identical keys (keys are used as labels)
@@ -27,7 +27,7 @@ const MyComponent = (props) => {
 };
 ```
 ### options object examples
-```
+```js
 const complexOptions = {
 
 	increments: 10,
@@ -60,7 +60,7 @@ const complexOptions = {
 
    };
 ```
-```
+```js
 const simpleOptions = {
 
 	increments: 5,
