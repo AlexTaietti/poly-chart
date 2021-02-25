@@ -20,7 +20,7 @@ const MyComponent = (props) => {
    //look below for options object examples
    const demoOptions = {...};
 
-   //the chart's parent in the DOM needs to be relatively positioned and its dimensions need to be stated, even percentages will do (the chart will shrink and expand according to its container's size)
+   //the chart will shrink and expand according to its container's size
    return <PolyChart data={demoData} options={demoOptions} />;
 
 };
