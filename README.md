@@ -12,7 +12,7 @@ A bare-bones canvas based component for data visualization in React. This chart 
 ```js
 const MyComponent = (props) => {
 
-   //can be either a single object or an array of object with identical keys (keys are used as labels)
+   //can be either a single object or an array of objects with identical keys (keys are used as labels)
    const demoData = [...]; 
 
    //look below for options object interface
