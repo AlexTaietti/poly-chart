@@ -63,16 +63,18 @@ const prodConfig = {
 
    externals: {
       react: {
+         root: 'React',
          commonjs: 'react',
          commonjs2: 'react',
-         amd: 'React',
-         root: 'React',
+         amd: 'react',
+         umd: 'react'
       },
       'react-dom': {
+         root: 'ReactDOM',
          commonjs: 'react-dom',
          commonjs2: 'react-dom',
-         amd: 'ReactDOM',
-         root: 'ReactDOM',
+         amd: 'react-dom',
+         umd: 'react-dom'
       },
    }
 
