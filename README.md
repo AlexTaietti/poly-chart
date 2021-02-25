@@ -10,6 +10,8 @@ A bare-bones canvas based component for data visualization in React. This chart 
 
 ### general
 ```js
+import { PolyChart } from 'poly-chart';
+
 const MyComponent = (props) => {
 
    //can be either a single object or an array of objects with identical keys (keys are used as labels)
@@ -20,7 +22,7 @@ const MyComponent = (props) => {
 
    return (
       <MyComponent style={mainStyle}>
-         <Chart data={demoData} options={demoOptions} />
+         <PolyChart data={demoData} options={demoOptions} />
       </MyComponent>
    );
 
