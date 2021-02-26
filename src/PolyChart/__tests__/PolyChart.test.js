@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
 import renderer from 'react-test-renderer';
-import polyChart from '../../../build/poly-chart';
 import { PolyChart } from '../PolyChart';
 
 describe('Chart: React component used to render a PolygonChart instance', () => {
