@@ -33,7 +33,7 @@ const complexOptions = {
 	
 	animation: {
 		tween: true,
-		delay: [0, 500, 1000], //if an array is supplied each entry will be assinged to the polygon with the corresponding index
+		delay: [0, 500, 1000], //if an array is supplied each entry will be assigned to the polygon with the corresponding index
 		duration: [2000, 1000, 5000],
 		easingFunction: ['easeOutElastic', 'easeOutBounce', 'linear']
 	},
