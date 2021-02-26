@@ -1,18 +1,14 @@
 export function mergeObjects(object, other, deep) {
 
-  for (const prop in object) {
+  for (const prop in other) {
 
-    if (prop === "__proto__" || prop === "constructor") continue;
+    if (!other.hasOwnProperty(prop) || (prop == "__proto__" || prop == "constructor")) continue;
 
-    if (other.hasOwnProperty(prop)) {
+    if (other[prop].toString() === '[object Object]' && deep) {
 
-      if (object[prop] && object[prop].toString() === '[object Object]' && deep) {
+      mergeObjects(object[prop], other[prop], true);
 
-        mergeObjects(object[prop], other[prop], true);
-
-      } else { object[prop] = other[prop]; }
-
-    }
+    } else { object[prop] = other[prop]; }
 
   }
 

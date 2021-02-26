@@ -69,7 +69,41 @@ describe('mergeObjects: returns a merged object', () => {
          e: 2020
       }
 
-      expect(mergeObjects(firstObject, secondObject)).toEqual(expectedResult);
+      expect(mergeObjects(firstObject, secondObject, true)).toEqual(expectedResult);
+
+   });
+
+   test('resist proto pollution', () => {
+
+      const firstObject = {
+
+         a: [1000, 20, 10, 20],
+         b: { firstName: 'Alex', secondName: 'Taietti' },
+         c: 'world',
+         d: { greeting: 'ciao' },
+         e: 2020
+
+      };
+
+      const secondObject = {
+
+         a: [1, 2, 3],
+         b: { firstName: 'Lionel', secondName: 'Messi' },
+         c: 'world',
+         d: { greeting: 'hello' },
+         "__proto__": { "polluted": true }
+
+      };
+
+      const expectedResult = {
+         a: [1, 2, 3],
+         b: { firstName: 'Lionel', secondName: 'Messi' },
+         c: 'world',
+         d: { greeting: 'hello' },
+         e: 2020
+      }
+
+      expect(mergeObjects(firstObject, secondObject, true)).toEqual(expectedResult);
 
    });
 
