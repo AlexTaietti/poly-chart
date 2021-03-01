@@ -74,6 +74,24 @@ export const PolygonChart = class PolygonChart {
         this.dataDimensions = this.labels.length;
         this.data = Object.values(newData);
 
+        console.log({
+
+          animation: {
+            animate: _that.options.animation.animated,
+            duration: _that.options.animation.duration,
+            delay: _that.options.animation.delay,
+            easingFunction: easingFunctions[_that.options.animation.easingFunction]
+          },
+
+          style: {
+            contour: _that.options.style.polygon.contour,
+            fill: _that.options.style.polygon.fill,
+            stroke: _that.options.style.polygon.stroke,
+            lineWidth: _that.options.style.polygon.lineWidth
+          }
+
+        });
+
         this.poly = new Polygon(this.data, {
 
           animation: {
@@ -96,7 +114,7 @@ export const PolygonChart = class PolygonChart {
 
     } catch (e) { console.error(e); }
 
-    this.widestLabel = getLongestStringWidth(this.options.style.label.font, this.labels);
+    this.widestLabel = getLongestStringWidth(`${this.options.style.label.fontSize * window.devicePixelRatio}px ${this.options.style.label.fontFamily}`, this.labels);
 
     this.position = {
       x: _that.context.canvas.width / 2,
@@ -132,7 +150,7 @@ export const PolygonChart = class PolygonChart {
         animated: false,
         duration: 0,
         delay: 0,
-        easingFunction: undefined,
+        easingFunction: 'linear',
         tween: false
       },
 
@@ -147,7 +165,8 @@ export const PolygonChart = class PolygonChart {
 
         label: {
           contour: false,
-          font: '1.6rem sans-serif',
+          fontSize: 16,
+          fontFamily: 'sans-serif',
           fill: 'rgba(0, 0, 0, 1)',
           stroke: 'rgba(255, 0, 0 , 1)',
           lineWidth: 0.2
@@ -210,7 +229,7 @@ export const PolygonChart = class PolygonChart {
     this.context.fillStyle = this.options.style.label.fill;
     this.context.strokeStyle = this.options.style.label.stroke;
     this.context.lineWidth = this.options.style.label.lineWidth;
-    this.context.font = this.options.style.label.font;
+    this.context.font = `${this.options.style.label.fontSize * window.devicePixelRatio}px ${this.options.style.label.fontFamily}`;
 
   }
 
@@ -340,7 +359,7 @@ export const PolygonChart = class PolygonChart {
 
     this.context.restore();
 
-    this.drawLabels(this.context);
+    this.drawLabels();
 
   }
 
@@ -384,7 +403,7 @@ export const PolygonChart = class PolygonChart {
 
     this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
 
-    this.drawChart(this.context);
+    this.drawChart();
 
     this.context.translate(this.position.x, this.position.y);
 
@@ -442,7 +461,7 @@ export const PolygonChart = class PolygonChart {
 
     this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
 
-    this.drawChart(this.context);
+    this.drawChart();
 
     if (this.currentPolygon < 0) {
 
