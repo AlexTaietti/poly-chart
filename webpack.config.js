@@ -25,6 +25,8 @@ const demoConfig = {
       new HtmlWebpackPlugin({ template: path.join(DEMO_PATH, 'index.html') })
    ],
 
+   devtool: 'source-map',
+
    devServer: {
       port: 1996,
       open: true
