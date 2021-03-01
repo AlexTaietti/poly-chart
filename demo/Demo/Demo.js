@@ -11,28 +11,32 @@ const mainStyle = {
 export const Demo = () => {
 
    //could be extracted from some prop
-   const demoData = [{
-      COOL: 200,
-      LOVE: 10,
-      WOW: 150,
-      THINGS: 170,
-      STUFF: 100,
-      HAPPY: 190
-   }, {
-      COOL: 100,
-      LOVE: 100,
-      WOW: 100,
-      THINGS: 30,
-      STUFF: 302,
-      HAPPY: 200
-   }, {
-      COOL: 150,
-      LOVE: 200,
-      WOW: 100,
-      THINGS: 150,
-      STUFF: 100,
-      HAPPY: 50
-   }];
+   const demoData = [
+      {
+         HP: 200,
+         ATTACK: 170,
+         DEFENSE: 110,
+         SPECIAL: 100,
+         SPEED: 150,
+         STAMINA: 190
+      },
+      {
+         HP: 100,
+         ATTACK: 100,
+         DEFENSE: 100,
+         SPECIAL: 130,
+         SPEED: 300,
+         STAMINA: 200
+      },
+      {
+         HP: 150,
+         ATTACK: 100,
+         DEFENSE: 200,
+         SPECIAL: 150,
+         SPEED: 100,
+         STAMINA: 120
+      }
+   ];
 
    //could be created inside a hook for example, after processing the props
    const demoOptions = {
@@ -48,7 +52,10 @@ export const Demo = () => {
 
       style: {
 
-         label: { font: `${12.5 * window.devicePixelRatio}px Helvetica` },
+         label: {
+            fontFamily: 'Helvetica',
+            fontSize: 12.5
+         },
 
          chart: {
             background: true,
