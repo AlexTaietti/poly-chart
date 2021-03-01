@@ -29,56 +29,56 @@ const MyComponent = (props) => {
 ```js
 const complexOptions = {
 
-	increments: 10,
+   increments: 10,
 
-	animation: {
-		tween: true,
-		delay: [0, 500, 1000],
-		duration: [2000, 1000, 5000],
-		easingFunction: ['easeOutElastic', 'easeOutBounce', 'linear']
-	},
+   animation: {
+      tween: true,
+      delay: [0, 500, 1000],
+      duration: [2000, 1000, 5000],
+      easingFunction: ['easeOutElastic', 'easeOutBounce', 'linear']
+   },
 
-	style: {
+   style: {
 
-		label: {
-			fontSize: 12.5,
-			fontFamily: 'Helvetica'
-		},
+      label: {
+         fontSize: 12.5,
+         fontFamily: 'Helvetica'
+	   },
 
-		chart: {
-			background: true,
-			fill: 'rgba(255, 255, 0, 1)',
-			stroke: 'rgba(0, 0, 0, 1)'
-		},
+      chart: {
+         background: true,
+         fill: 'rgba(255, 255, 0, 1)',
+         stroke: 'rgba(0, 0, 0, 1)'
+      },
 
-		polygon: {
-			contour: true,
-			fill: ['rgba(3, 5, 183, 0.6)', 'rgba(255, 0, 0, 0.6)', 'rgba(0, 210, 79, 0.6)'],
-			stroke: ['rgb(3, 5, 183)', 'rgb(255, 0, 0)', 'rgb(0, 210, 79)'],
-			lineWidth: 2
-		}
+      polygon: {
+         contour: true,
+         fill: ['rgba(3, 5, 183, 0.6)', 'rgba(255, 0, 0, 0.6)', 'rgba(0, 210, 79, 0.6)'],
+         stroke: ['rgb(3, 5, 183)', 'rgb(255, 0, 0)', 'rgb(0, 210, 79)'],
+         lineWidth: 2
+      }
 
-	}
+   }
 
 };
 ```
 ```js
 const simpleOptions = {
 
-	increments: 5,
+   increments: 5,
 
-	style: {
-	
-		label: {
-			fontSize: 16,
-			fontFamily: 'sans-serif'
-		},
-		
-		chart: { stroke: 'rgba(0, 0, 0, 1)' },
-		
-		polygon: { fill: 'rgba(0, 210, 79, 0.6)' }
-	
-	}
+   style: {
+
+      label: {
+         fontSize: 16,
+         fontFamily: 'sans-serif'
+      },
+
+      chart: { stroke: 'rgba(0, 0, 0, 1)' },
+
+      polygon: { fill: 'rgba(0, 210, 79, 0.6)' }
+
+   }
 
 };
 ```
