@@ -15,13 +15,13 @@ import { PolyChart } from 'poly-chart';
 const MyComponent = (props) => {
 
    //can be either a single object or an array of objects with identical keys (keys are used as labels)
-   const demoData = [...]; 
+   const myData = {...}; 
 
    //look below for options object examples
-   const demoOptions = {...};
+   const myOptions = {...};
 
    //the chart will shrink and expand according to its container's size
-   return <PolyChart data={demoData} options={demoOptions} />;
+   return <PolyChart data={myData} options={myOptions} />;
 
 };
 ```
@@ -30,34 +30,37 @@ const MyComponent = (props) => {
 const complexOptions = {
 
 	increments: 10,
-	
+
 	animation: {
 		tween: true,
-		delay: [0, 500, 1000], //if an array is supplied each entry will be assigned to the polygon with the corresponding index
+		delay: [0, 500, 1000],
 		duration: [2000, 1000, 5000],
 		easingFunction: ['easeOutElastic', 'easeOutBounce', 'linear']
 	},
 
 	style: {
-	
-		label: { font: `20px Helvetica` },
-		
+
+		label: {
+			fontSize: 12.5
+			fontFamily: 'Helvetica',
+		},
+
 		chart: {
 			background: true,
 			fill: 'rgba(255, 255, 0, 1)',
 			stroke: 'rgba(0, 0, 0, 1)'
 		},
-		
+
 		polygon: {
 			contour: true,
 			fill: ['rgba(3, 5, 183, 0.6)', 'rgba(255, 0, 0, 0.6)', 'rgba(0, 210, 79, 0.6)'],
 			stroke: ['rgb(3, 5, 183)', 'rgb(255, 0, 0)', 'rgb(0, 210, 79)'],
 			lineWidth: 2
 		}
-	
+
 	}
 
-   };
+};
 ```
 ```js
 const simpleOptions = {
@@ -66,7 +69,10 @@ const simpleOptions = {
 
 	style: {
 	
-		label: { font: `16px sans-serif` },
+		label: {
+			fontSize: 16,
+			fontFamily: 'sans-serif'
+		},
 		
 		chart: { stroke: 'rgba(0, 0, 0, 1)' },
 		
