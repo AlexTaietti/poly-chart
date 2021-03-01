@@ -31,7 +31,6 @@ export const Polygon = class Polygon {
       this.animated = false;
       this.animationStartTime = -1;
       this.animating = false;
-      this.animated = false;
     }
 
   }
