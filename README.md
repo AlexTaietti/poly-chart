@@ -41,8 +41,8 @@ const complexOptions = {
 	style: {
 
 		label: {
-			fontSize: 12.5
-			fontFamily: 'Helvetica',
+			fontSize: 12.5,
+			fontFamily: 'Helvetica'
 		},
 
 		chart: {
