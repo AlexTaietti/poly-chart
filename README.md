@@ -33,7 +33,7 @@ const complexOptions = {
 
    animation: {
       tween: true,
-      delay: [0, 500, 1000],
+      delay: [0, 500, 1000], //if an array is supplied each value will be applied to its corresponding polygon (based on index)
       duration: [2000, 1000, 5000],
       easingFunction: ['easeOutElastic', 'easeOutBounce', 'linear']
    },
@@ -43,7 +43,7 @@ const complexOptions = {
       label: {
          fontSize: 12.5,
          fontFamily: 'Helvetica'
-	   },
+      },
 
       chart: {
          background: true,
