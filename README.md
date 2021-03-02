@@ -8,6 +8,8 @@ A bare-bones canvas based component for data visualization in React. This chart 
 
 ## Usage
 
+Here's a live demo to play around with: [Codepen Demo](https://codepen.io/AlexTaietti/pen/BaQJvYo)
+
 ### general
 ```js
 import { PolyChart } from 'poly-chart';
