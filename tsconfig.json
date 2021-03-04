@@ -1,15 +1,15 @@
 {
    "compilerOptions": {
+      "strictPropertyInitialization": false,
       "allowSyntheticDefaultImports": true,
       "noFallthroughCasesInSwitch": true,
       "noUnusedParameters": true,
-      "noImplicitReturns": true,
       "moduleResolution": "node",
+      "noImplicitReturns": true,
       "esModuleInterop": true,
       "noUnusedLocals": true,
-      "noImplicitAny": true,
       "strict": true,
-      "jsx": "react"
+      "jsx": "react",
    },
    "include": [
       "src"
