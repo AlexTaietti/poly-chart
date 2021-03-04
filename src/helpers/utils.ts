@@ -9,7 +9,7 @@ export function mergeOptions(defaultObject: any, other: any, deep?: boolean) {
 
     if (!other.hasOwnProperty(prop) || (prop == "__proto__" || prop == "constructor")) continue;
 
-    if (defaultObject.hasOwnProperty(prop) && other[prop].toString() === '[object Object]' && deep) {
+    if (defaultObject.hasOwnProperty(prop) && other[prop] && other[prop].toString() === '[object Object]' && deep) {
 
       mergeOptions(defaultObject[prop], other[prop], true);
 
