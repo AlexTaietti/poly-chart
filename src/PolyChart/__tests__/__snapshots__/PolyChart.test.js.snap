@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Chart: React component used to render a PolygonChart instance render chart without making everyone sad 1`] = `
+<div
+  aria-label="chart"
+  style={
+    Object {
+      "display": "block",
+      "height": "100%",
+      "position": "relative",
+      "width": "100%",
+    }
+  }
+/>
+`;
