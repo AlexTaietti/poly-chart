@@ -1,4 +1,10 @@
 //blatantly stolen from this amazing repo here: https://github.com/ai/easings.net/blob/master/src/easings/easingsFunctions.ts
+type EasingFunction = (progress: number) => number;
+
+interface EasingDictionary {
+  [easing: string]: EasingFunction;
+}
+
 const pow = Math.pow;
 const sqrt = Math.sqrt;
 const sin = Math.sin;
@@ -10,7 +16,7 @@ const c3 = c1 + 1;
 const c4 = (2 * PI) / 3;
 const c5 = (2 * PI) / 4.5;
 
-function bounceOut(x) {
+const bounceOut: EasingFunction = function (x) {
   const n1 = 7.5625;
   const d1 = 2.75;
 
@@ -23,9 +29,10 @@ function bounceOut(x) {
   } else {
     return n1 * (x -= 2.625 / d1) * x + 0.984375;
   }
-}
+};
 
-export const easingFunctions = {
+export const easingFunctions: EasingDictionary = {
+  static: () => 1,
   linear: (x) => x,
   easeInQuad: function (x) {
     return x * x;

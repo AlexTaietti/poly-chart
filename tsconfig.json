@@ -1,0 +1,20 @@
+{
+   "compilerOptions": {
+      "strictPropertyInitialization": false,
+      "allowSyntheticDefaultImports": true,
+      "noFallthroughCasesInSwitch": true,
+      "noUnusedParameters": true,
+      "moduleResolution": "node",
+      "noImplicitReturns": true,
+      "esModuleInterop": true,
+      "noUnusedLocals": true,
+      "strict": true,
+      "jsx": "react",
+   },
+   "include": [
+      "src"
+   ],
+   "exclude": [
+      "node_modules"
+   ]
+}

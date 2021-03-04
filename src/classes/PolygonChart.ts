@@ -1,11 +1,94 @@
-import { mergeObjects, createFittingCanvas, getLongestStringWidth, getMaxValueInArray } from '../helpers/utils.js';
-import { Polygon } from './Polygon.js';
-import { easingFunctions } from '../helpers/easingFunctions.js';
+import { extractDataFrom, mergeOptions, createFittingCanvas, getLongestStringWidth, getMaxValueInArray } from '../helpers/utils';
+import { Polygon } from './Polygon';
 
-export const PolygonChart = class PolygonChart {
+type PolygonChartOptions = {
+
+  debugging?: boolean;
+
+  maxValue?: number;
+
+  description?: string;
+
+  increments?: number;
+
+  animation?: {
+    tween?: boolean,
+    animated?: boolean | Array<boolean>,
+    duration: number | Array<number>,
+    delay?: number | Array<number>,
+    easingFunction: string | Array<string>
+  };
+
+  style?: {
+
+    chart?: {
+      background?: boolean,
+      fill?: string,
+      stroke?: string,
+      lineWidth?: number
+    },
+
+    label?: {
+      contour?: boolean,
+      fontSize: number,
+      fontFamily: string,
+      fill?: string,
+      stroke?: string,
+      lineWidth?: number
+    },
+
+    polygon?: {
+      contour?: boolean | Array<boolean>,
+      fill?: string | Array<string>,
+      stroke?: string | Array<string>,
+      lineWidth?: number | Array<number>
+    }
+
+  };
+
+};
+
+export class PolygonChart {
+
+  container: HTMLDivElement;
+
+  canvas: HTMLCanvasElement;
+
+  context: CanvasRenderingContext2D;
+
+  options: PolygonChartOptions;
+
+  labels: Array<string>;
+
+  dataDimensions: number;
+
+  data: Array<number> | Array<number[]>;
+
+  poly: Polygon | Array<Polygon>;
+
+  currentPolygon: number;
+
+  widestLabel: number;
+
+  position: {
+    x: number,
+    y: number
+  };
+
+  labelMargin: number;
+  radius: number;
+  increments: number;
+  incrementStep: number;
+  angleStep: number;
+
+  maxValue: number;
+  valueStep: number;
+
+  frameID: number;
+  timeoutID: number;
 
   //create a canvas and fit it to a given container element
-  constructor(element) {
+  constructor(element: HTMLDivElement) {
 
     [this.container, this.canvas, this.context] = createFittingCanvas(element);
 
@@ -14,13 +97,13 @@ export const PolygonChart = class PolygonChart {
   //hook resize handlers to the window
   setResizeHandler() {
 
-    if (this.options && this.options.debugging) console.log('PolygonChart.js: Hooking resize handlers to the window object');
+    if (this.options && this.options.debugging) console.warn('PolygonChart: Hooking resize handlers to the window object');
 
     window.addEventListener('resize', this.resizeAndCenter.bind(this));
 
     return () => {
 
-      if (this.options && this.options.debugging) console.log('PolygonChart.js: Unmounting chart and cleaning up event handlers');
+      if (this.options && this.options.debugging) console.warn('PolygonChart: Unmounting chart and cleaning up event handlers');
 
       window.removeEventListener('resize', this.resizeAndCenter);
 
@@ -28,102 +111,89 @@ export const PolygonChart = class PolygonChart {
 
   }
 
-  updateData(newData) {
+  updateData(newData: object | Array<object>) {
 
-    if (this.options && this.options.debugging) console.log("PolygonChart.js: updating chart's data");
+    if (this.options && this.options.debugging) console.warn("PolygonChart: updating chart's data with:\n\ndata = " + JSON.stringify(newData, null, 3) + "\n\n----------\n\nSo far these are the supplied options:\n\noptions = " + JSON.stringify(this.options, null, 3));
 
     const _that = this;
 
-    try {
+    if (Array.isArray(newData)) {
 
-      if (Array.isArray(newData)) {
+      this.labels = Object.keys(newData[0]);
+      this.dataDimensions = this.labels.length;
+      this.data = extractDataFrom(newData);
+      this.poly = [];
+      this.currentPolygon = -1;
 
-        this.labels = Object.keys(newData[0]);
-        this.dataDimensions = this.labels.length;
-        this.data = PolygonChart.extractDataFrom(newData);
-        this.poly = [];
-        this.currentPolygon = -1;
+      for (let i = 0; i < this.data.length; i++) {
 
-        for (let i = 0; i < this.data.length; i++) {
+        const { tween, animated, duration, delay, easingFunction } = this.options.animation || {};
 
-          const polygon = new Polygon(this.data[i], {
+        const { contour, fill, stroke, lineWidth } = this.options.style && this.options.style.polygon || {};
 
-            animation: {
-              animate: _that.options.animation.animated && _that.options.animation.animated.length ? _that.options.animation.animated[i] : (_that.options.animation.animated || _that.options.animation.tween),
-              duration: _that.options.animation.duration.length ? _that.options.animation.duration[i] : _that.options.animation.duration,
-              delay: _that.options.animation.delay.length ? _that.options.animation.delay[i] : _that.options.animation.delay,
-              easingFunction: _that.options.animation.easingFunction.length && typeof _that.options.animation.easingFunction !== "string" ? easingFunctions[_that.options.animation.easingFunction[i]] : easingFunctions[_that.options.animation.easingFunction],
-            },
+        const polygon = new Polygon(this.data[i], {
 
-            style: {
-              contour: _that.options.style.polygon.contour.length ? _that.options.style.polygon.contour[i] : _that.options.style.polygon.contour,
-              fill: _that.options.style.polygon.fill.length && typeof _that.options.style.polygon.fill !== "string" ? _that.options.style.polygon.fill[i] : _that.options.style.polygon.fill,
-              stroke: _that.options.style.polygon.stroke.length && typeof _that.options.style.polygon.stroke !== "string" ? _that.options.style.polygon.stroke[i] : _that.options.style.polygon.stroke,
-              lineWidth: _that.options.style.polygon.lineWidth.length ? _that.options.style.polygon.lineWidth[i] : _that.options.style.polygon.lineWidth
-            }
+          animation: animated || (Array.isArray(animated)) || tween ? {
+            duration: Array.isArray(duration) ? duration[i] : duration,
+            delay: Array.isArray(delay) ? delay[i] : delay,
+            easingFunction: Array.isArray(easingFunction) ? easingFunction[i] : easingFunction,
+          } : undefined,
 
-          });
+          style: {
+            contour: Array.isArray(contour) ? contour[i] : contour,
+            fill: Array.isArray(fill) ? fill[i] : fill,
+            stroke: Array.isArray(stroke) ? stroke[i] : stroke,
+            lineWidth: Array.isArray(lineWidth) ? lineWidth[i] : lineWidth
+          }
 
-          this.poly.push(polygon);
+        });
 
+        this.poly.push(polygon);
+
+      }
+
+    } else {
+
+      this.labels = Object.keys(newData);
+      this.dataDimensions = this.labels.length;
+      this.data = Object.values(newData) as Array<number>;
+
+      const { animated, duration, delay, easingFunction } = this.options.animation || {};
+
+      const { contour, fill, stroke, lineWidth } = this.options.style && this.options.style.polygon || {};
+
+      this.poly = new Polygon(this.data, {
+
+        animation: {
+          animate: animated,
+          duration: duration,
+          delay: delay,
+          easingFunction: easingFunction
+        },
+
+        style: {
+          contour: contour,
+          fill: fill,
+          stroke: stroke,
+          lineWidth: lineWidth
         }
 
-      } else if (newData.toString() === "[object Object]") {
+      });
 
-        this.labels = Object.keys(newData);
-        this.dataDimensions = this.labels.length;
-        this.data = Object.values(newData);
+    }
 
-        console.log({
+    const labelWidthTestFont = this.options.style && this.options.style.label ? `${this.options.style.label.fontSize * window.devicePixelRatio}px ${this.options.style.label.fontFamily}` : `${16 * window.devicePixelRatio}px sans-serif`;
 
-          animation: {
-            animate: _that.options.animation.animated,
-            duration: _that.options.animation.duration,
-            delay: _that.options.animation.delay,
-            easingFunction: easingFunctions[_that.options.animation.easingFunction]
-          },
-
-          style: {
-            contour: _that.options.style.polygon.contour,
-            fill: _that.options.style.polygon.fill,
-            stroke: _that.options.style.polygon.stroke,
-            lineWidth: _that.options.style.polygon.lineWidth
-          }
-
-        });
-
-        this.poly = new Polygon(this.data, {
-
-          animation: {
-            animate: _that.options.animation.animated,
-            duration: _that.options.animation.duration,
-            delay: _that.options.animation.delay,
-            easingFunction: easingFunctions[_that.options.animation.easingFunction]
-          },
-
-          style: {
-            contour: _that.options.style.polygon.contour,
-            fill: _that.options.style.polygon.fill,
-            stroke: _that.options.style.polygon.stroke,
-            lineWidth: _that.options.style.polygon.lineWidth
-          }
-
-        });
-
-      } else { throw new TypeError("The 'data' parameter can only be an array or an object"); }
-
-    } catch (e) { console.error(e); }
-
-    this.widestLabel = getLongestStringWidth(`${this.options.style.label.fontSize * window.devicePixelRatio}px ${this.options.style.label.fontFamily}`, this.labels);
+    this.widestLabel = getLongestStringWidth(labelWidthTestFont, this.labels);
 
     this.position = {
       x: _that.context.canvas.width / 2,
       y: _that.context.canvas.height / 2
     };
 
-    this.labelMargin = 5;
+    this.labelMargin = 5; //TODO: find a way to calculate this here
     this.radius = ((this.context.canvas.width / 2) - this.widestLabel) - this.labelMargin;
-    this.increments = this.options.increments;
+    this.increments = this.options.increments || 10;
     this.incrementStep = this.radius / this.increments;
     this.angleStep = (Math.PI * 2) / this.dataDimensions;
 
@@ -133,67 +203,42 @@ export const PolygonChart = class PolygonChart {
 
   }
 
-  updateOptions(newOptions) {
+  updateOptions(newOptions: object) {
 
-    const _defaults = {
+    if (this.options && this.options.debugging) console.warn('PolygonChart: updating chart options with this object:\n' + JSON.stringify(newOptions, null, 3));
 
-      debugging: false,
-
-      maxValue: undefined,
+    const _defaults: PolygonChartOptions = {
 
       increments: 10,
-
-      description: undefined,
-
-      animation: {
-        tween: false,
-        animated: false,
-        duration: 0,
-        delay: 0,
-        easingFunction: 'linear',
-        tween: false
-      },
 
       style: {
 
         chart: {
-          background: false,
-          fill: 'rgba(0, 0, 255, 0.6)',
           stroke: 'rgba(0, 0, 0, 1)',
           lineWidth: 1
         },
 
         label: {
-          contour: false,
           fontSize: 16,
           fontFamily: 'sans-serif',
-          fill: 'rgba(0, 0, 0, 1)',
-          stroke: 'rgba(255, 0, 0 , 1)',
-          lineWidth: 0.2
-        },
-
-        polygon: {
-          contour: true,
-          fill: 'rgba(255, 0, 0, 0.4)',
-          stroke: 'rgba(255, 0, 0, 1)',
-          lineWidth: 2
+          fill: 'rgba(0, 0, 0, 1)'
         }
 
       }
 
     };
 
-    this.options = this.options ? mergeObjects(this.options, newOptions, true) : mergeObjects(_defaults, newOptions, true);
+    this.options = this.options ? mergeOptions(this.options, newOptions, true) : mergeOptions(_defaults, newOptions, true);
 
-    if (this.options.debugging) console.warn('PolygonChart.js: Debug mode is activated');
+    if (this.options.debugging) console.warn('PolygonChart: Debug mode is active');
 
   }
 
   masterDraw() {
 
-    if (this.options && this.options.debugging) console.log('PolygonChart.js: Drawing chart');
+    if (this.options.debugging) console.warn('PolygonChart: Drawing chart');
 
-    if (this.options.animation.animated || this.options.animation.tween) {
+    if (this.options.animation && (this.options.animation.animated || this.options.animation.tween)) {
 
       this.animate();
 
@@ -201,35 +246,36 @@ export const PolygonChart = class PolygonChart {
 
   }
 
-  //extract and array of values from a supplied object (has to contain only numerical values)
-  static extractDataFrom(array) {
-
-    const data = [];
-
-    for (let i = 0; i < array.length; i++) {
-      data.push(Object.values(array[i]));
-    }
-
-    return data;
-
-  }
-
   setChartStyle() {
 
-    //set canvas style
-    this.context.fillStyle = this.options.style.chart.fill;
-    this.context.strokeStyle = this.options.style.chart.stroke;
-    this.context.lineWidth = this.options.style.chart.lineWidth;
+    if (this.options.style && this.options.style.chart) {
+
+      const { fill, stroke, lineWidth } = this.options.style.chart;
+
+      //set canvas style
+      this.context.fillStyle = fill || 'rgba(0, 0, 0, 0)';
+      this.context.strokeStyle = stroke || 'rgba(0, 0, 0, 1)';
+      this.context.lineWidth = lineWidth || 1;
+
+    }
 
   }
 
   setLabelStyle() {
 
-    //set canvas style
-    this.context.fillStyle = this.options.style.label.fill;
-    this.context.strokeStyle = this.options.style.label.stroke;
-    this.context.lineWidth = this.options.style.label.lineWidth;
-    this.context.font = `${this.options.style.label.fontSize * window.devicePixelRatio}px ${this.options.style.label.fontFamily}`;
+    if (this.options?.style?.label) {
+
+      const { fill, stroke, lineWidth } = this.options.style.label;
+
+      const labelFont = `${this.options.style.label.fontSize * window.devicePixelRatio}px ${this.options.style.label.fontFamily}`;
+
+      //set canvas style
+      this.context.fillStyle = fill || 'rgba(0, 0, 0, 1)';
+      this.context.strokeStyle = stroke || 'rgba(0, 0, 0, 1)';
+      this.context.lineWidth = lineWidth || 1;
+      this.context.font = labelFont;
+
+    }
 
   }
 
@@ -310,7 +356,7 @@ export const PolygonChart = class PolygonChart {
 
       this.context.fillText(this.labels[i], x, y);
 
-      if (this.options.style.label.contour) this.context.strokeText(this.labels[i], x, y);
+      if (this.options.style?.label?.contour) this.context.strokeText(this.labels[i], x, y);
 
     }
 
@@ -328,7 +374,7 @@ export const PolygonChart = class PolygonChart {
 
     this.setChartStyle();
 
-    if (this.options.style.chart.background) {
+    if (this.options.style?.chart?.background) {
       this.context.beginPath();
       for (let j = 0; j < this.dataDimensions; j++) {
         const currentAngle = this.angleStep * j;
@@ -363,7 +409,7 @@ export const PolygonChart = class PolygonChart {
 
   }
 
-  draw(index = undefined, lastIndex = undefined) {
+  draw(index: number | undefined = undefined, lastIndex: number | undefined = undefined) {
 
     this.context.save();
 
@@ -375,7 +421,7 @@ export const PolygonChart = class PolygonChart {
 
     this.context.rotate(-(Math.PI / 2));
 
-    if (this.poly.length) {
+    if (Array.isArray(this.poly)) {
 
       if (index !== undefined) {
 
@@ -411,21 +457,17 @@ export const PolygonChart = class PolygonChart {
 
     let complete = false;
 
-    if (this.poly.length) {
+    if (Array.isArray(this.poly)) {
 
-      for (let i = 0; i < this.poly.length; i++) {
-
-        if (this.poly[i].animated) {
-
-          this.poly[i].draw(this.context, this.angleStep, this.valueStep);
-
-        } else { this.poly[i].animate(this.context, this.angleStep, this.valueStep); }
-
-      }
+      for (let i = 0; i < this.poly.length; i++) { this.poly[i].animate(this.context, this.angleStep, this.valueStep); }
 
       complete = this.poly.reduce((progress, currentPolygon) => {
 
-        return progress + currentPolygon.animationProgress;
+        const polyProgress = currentPolygon.options.animation?.progress;
+
+        if (polyProgress != 1) return progress;
+
+        return progress + polyProgress;
 
       }, 0) === this.poly.length ? true : false;
 
@@ -433,7 +475,7 @@ export const PolygonChart = class PolygonChart {
 
       this.poly.animate(this.context, this.angleStep, this.valueStep);
 
-      if (this.poly.animationProgress === 1) { complete = true; }
+      if (this.poly.options.animation?.progress === 1) { complete = true; }
 
     }
 
@@ -447,15 +489,20 @@ export const PolygonChart = class PolygonChart {
 
       window.cancelAnimationFrame(this.frameID);
 
+      if (this.options && this.options.debugging) console.warn('PolygonChart: basic animation completed!');
+
     } else {
 
-      this.frameID = window.requestAnimationFrame(this.animate.bind(this, this.context));
+      this.frameID = window.requestAnimationFrame(this.basicAnimate.bind(this, this.context));
 
     }
 
   }
 
-  tween() {
+  //TODO: put the setTimeout return ID to good use
+  tween(): number {
+
+    if (!Array.isArray(this.poly)) throw new Error('PolyChart: I cannot tween a single polygon sorry );');
 
     this.context.save();
 
@@ -467,11 +514,7 @@ export const PolygonChart = class PolygonChart {
 
       this.currentPolygon = 0;
 
-      if (this.poly[this.currentPolygon].options.animation.delay > 0) {
-
-        return window.setTimeout(this.tween.bind(this), this.poly[this.currentPolygon].options.animation.delay);
-
-      }
+      return window.setTimeout(this.tween.bind(this), this.poly[this.currentPolygon].options.animation?.delay);
 
     }
 
@@ -495,7 +538,11 @@ export const PolygonChart = class PolygonChart {
 
       let complete = this.poly.reduce((progress, currentPolygon) => {
 
-        return progress + currentPolygon.animationProgress;
+        const polyProgress = currentPolygon.options.animation?.progress;
+
+        if (polyProgress != 1) return progress;
+
+        return progress + polyProgress;
 
       }, 0) === this.poly.length ? true : false;
 
@@ -509,7 +556,9 @@ export const PolygonChart = class PolygonChart {
 
         this.currentPolygon = -1;
 
-        return;
+        if (this.options && this.options.debugging) console.warn('PolygonChart: tweening completed!');
+
+        return 0;
 
       } else {
 
@@ -517,9 +566,9 @@ export const PolygonChart = class PolygonChart {
 
       }
 
-      if (this.poly[this.currentPolygon].options.animation.delay > 0) {
+      if (this.poly[this.currentPolygon].options.animation) {
 
-        return window.setTimeout(this.tween.bind(this), this.poly[this.currentPolygon].options.animation.delay);
+        return window.setTimeout(this.tween.bind(this), this.poly[this.currentPolygon].options.animation?.delay);
 
       }
 
@@ -531,16 +580,22 @@ export const PolygonChart = class PolygonChart {
 
     }
 
+    return 0;
+
   }
 
   //either animate all polygons at the same time or tween them based on supplied options
   animate() {
 
-    if (this.options.animation.tween) {
+    if (Array.isArray(this.poly) && this.options.animation?.tween) {
 
-      this.tween();
+      if (this.options && this.options.debugging) console.warn('PolygonChart: starting tweening');
+
+      this.timeoutID = this.tween();
 
     } else {
+
+      if (this.options && this.options.debugging) console.warn('PolygonChart: starting basic animation');
 
       this.basicAnimate();
 
@@ -549,8 +604,6 @@ export const PolygonChart = class PolygonChart {
   }
 
   clearCanvas() { this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height); }
-
-  pauseAnimation() { if (this.frameID) window.cancelAnimationFrame(this.frameID); }
 
   resizeAndCenter() {
 
