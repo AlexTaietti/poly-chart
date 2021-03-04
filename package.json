@@ -1,6 +1,6 @@
 {
   "name": "poly-chart",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "main": "build/poly-chart.js",
   "description": "A simple polygon chart component for React apps",
   "keywords": [
