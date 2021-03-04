@@ -1,4 +1,4 @@
-import { mergeObjects, createFittingCanvas, getLongestStringWidth, getMaxValueInArray } from "../utils";
+import { mergeOptions, createFittingCanvas, getLongestStringWidth, getMaxValueInArray } from "../utils";
 
 describe('getMaxValueInArray: returns the highest value in an array of numbers', () => {
 
@@ -20,7 +20,7 @@ describe('getMaxValueInArray: returns the highest value in an array of numbers',
 
 });
 
-describe('mergeObjects: returns a merged object', () => {
+describe('mergeOptions: returns a merged object', () => {
 
    test('merge two shallow objects', () => {
 
@@ -36,7 +36,7 @@ describe('mergeObjects: returns a merged object', () => {
          e: 2020
       }
 
-      expect(mergeObjects(firstObject, secondObject)).toEqual(expectedResult);
+      expect(mergeOptions(firstObject, secondObject)).toEqual(expectedResult);
 
    });
 
@@ -69,7 +69,7 @@ describe('mergeObjects: returns a merged object', () => {
          e: 2020
       }
 
-      expect(mergeObjects(firstObject, secondObject, true)).toEqual(expectedResult);
+      expect(mergeOptions(firstObject, secondObject, true)).toEqual(expectedResult);
 
    });
 
@@ -103,7 +103,7 @@ describe('mergeObjects: returns a merged object', () => {
          e: 2020
       }
 
-      expect(mergeObjects(firstObject, secondObject, true)).toEqual(expectedResult);
+      expect(mergeOptions(firstObject, secondObject, true)).toEqual(expectedResult);
 
    });
 
