@@ -64,6 +64,8 @@ export class PolygonChart {
 
   data: Array<number> | Array<number[]>;
 
+  originalData: object | Array<object>;
+
   poly: Polygon | Array<Polygon>;
 
   currentPolygon: number;
@@ -116,6 +118,8 @@ export class PolygonChart {
     if (this.options && this.options.debugging) console.warn("PolygonChart: updating chart's data with:\n\ndata = " + JSON.stringify(newData, null, 3) + "\n\n----------\n\nSo far these are the supplied options:\n\noptions = " + JSON.stringify(this.options, null, 3));
 
     const _that = this;
+
+    this.originalData = newData;
 
     if (Array.isArray(newData)) {
 
@@ -228,7 +232,9 @@ export class PolygonChart {
 
     };
 
-    this.options = this.options ? mergeOptions(this.options, newOptions, true) : mergeOptions(_defaults, newOptions, true);
+    this.options = mergeOptions(_defaults, newOptions, true);
+
+    if (this.originalData) this.updateData(this.originalData);
 
     if (this.options.debugging) console.warn('PolygonChart: Debug mode is active');
 
