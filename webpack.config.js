@@ -13,12 +13,12 @@ const demoConfig = {
    entry: DEMO_PATH,
 
    resolve: {
-      extensions: ['.js', '.json'],
+      extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
       alias: { "@poly-chart": SOURCE_PATH }
    },
 
    module: {
-      rules: [{ test: /\.(js)x?$/, loader: 'babel-loader', exclude: /node_modules/ }],
+      rules: [{ test: /\.(js)x?$/, loader: 'babel-loader', exclude: /node_modules/ }, { test: /\.(ts)x?$/, use: ['babel-loader', 'ts-loader'], exclude: /node_modules/ }],
    },
 
    plugins: [
@@ -50,11 +50,11 @@ const prodConfig = {
    },
 
    resolve: {
-      extensions: ['.js', '.json']
+      extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
    },
 
    module: {
-      rules: [{ test: /\.(js)x?$/, loader: 'babel-loader', exclude: /node_modules/ }],
+      rules: [{ test: /\.(js)x?$/, loader: 'babel-loader', exclude: /node_modules/ }, { test: /\.(ts)x?$/, use: ['babel-loader', 'ts-loader'], exclude: /node_modules/ }],
    },
 
    optimization: {
