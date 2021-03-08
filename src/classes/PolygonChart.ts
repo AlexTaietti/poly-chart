@@ -1,7 +1,7 @@
 import { extractDataFrom, mergeOptions, createFittingCanvas, getLongestStringWidth, getMaxValueInArray } from '../helpers/utils';
 import { Polygon } from './Polygon';
 
-type PolygonChartOptions = {
+export type PolygonChartOptions = {
 
   debugging?: boolean;
 
@@ -90,7 +90,9 @@ export class PolygonChart {
   timeoutID: number;
 
   //create a canvas and fit it to a given container element
-  constructor(element: HTMLDivElement) {
+  constructor(element: HTMLDivElement | null) {
+
+    if (!element) throw new Error('PolygonChart: parent container is null');
 
     [this.container, this.canvas, this.context] = createFittingCanvas(element);
 

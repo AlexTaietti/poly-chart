@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
-import { PolygonChart, PolygonChartOptions } from '../classes';
+import { PolygonChart } from '../classes';
+import { PolygonChartOptions } from '../classes/PolygonChart';
 
 type PolyChartProps = {
 
@@ -18,7 +19,7 @@ const chartContainerStyle: React.CSSProperties = {
 
 export const PolyChart: React.FC<PolyChartProps> = ({ data, options }) => {
 
-   const container = useRef<HTMLDivElement | null>(null);
+   const container = useRef<HTMLDivElement>(null);
 
    const chart = useRef<PolygonChart>();
 
