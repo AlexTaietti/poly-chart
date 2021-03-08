@@ -1,0 +1,14 @@
+{
+   "compilerOptions": {
+      "skipLibCheck": true,
+      "emitDeclarationOnly": true,
+      "esModuleInterop": true,
+      "declaration": true,
+      "jsx": "react",
+      "outDir": "src/@types"
+   },
+   "include": [
+      "./**/*.ts",
+      "./**/*.tsx"
+   ]
+}
