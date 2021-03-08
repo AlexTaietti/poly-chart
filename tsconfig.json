@@ -9,7 +9,9 @@
       "esModuleInterop": true,
       "noUnusedLocals": true,
       "strict": true,
+      "allowJs": true,
       "jsx": "react",
+      "outDir": "$$type$$"
    },
    "include": [
       "src"
