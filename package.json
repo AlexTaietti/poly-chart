@@ -1,6 +1,6 @@
 {
   "name": "poly-chart",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "main": "build/poly-chart.js",
   "description": "A simple polygon chart component for React apps",
   "keywords": [
@@ -19,7 +19,7 @@
   "scripts": {
     "build": "webpack --progress --config-name prod",
     "demo": "webpack s --config-name demo",
-    "type": "tsc src/**/*.ts --emitDeclarationOnly --declaration --allowJs --skipLibCheck --outDir @types",
+    "type": "tsc --project declare.tsconfig.json",
     "test": "jest"
   },
   "author": {
