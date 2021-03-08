@@ -3,6 +3,14 @@
   "version": "2.0.4",
   "main": "build/poly-chart.js",
   "description": "A simple polygon chart component for React apps",
+  "author": {
+    "name": "Alex Taietti",
+    "email": "taiettialex@yahoo.it"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlexTaietti/poly-chart"
+  },
   "keywords": [
     "react",
     "chart",
@@ -21,10 +29,6 @@
     "demo": "webpack s --config-name demo",
     "type": "tsc --project declare.tsconfig.json",
     "test": "jest"
-  },
-  "author": {
-    "name": "Alex Taietti",
-    "email": "taiettialex@yahoo.it"
   },
   "jest": {
     "setupFiles": [
